@@ -1,0 +1,1361 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Birthday Surprise</title>
+
+    <!-- GOOGLE FONT -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CONFETTI -->
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            overflow-x:hidden;
+
+            background:
+            linear-gradient(
+            135deg,
+            #050505,
+            #111827,
+            #000000);
+
+            color:white;
+        }
+
+        /* FRONT PAGE */
+
+        .page{
+
+            width:100%;
+
+            min-height:100vh;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            flex-direction:column;
+
+            position:relative;
+
+            overflow:hidden;
+
+            padding:20px;
+        }
+
+        /* LOVE BALLOONS */
+
+        .love{
+
+            position:absolute;
+
+            bottom:-100px;
+
+            width:90px;
+
+            opacity:0.9;
+
+            animation:loveFloat 10s linear infinite;
+        }
+
+        .love1{
+            left:5%;
+        }
+
+        .love2{
+            left:20%;
+            animation-delay:2s;
+        }
+
+        .love3{
+            right:15%;
+            animation-delay:4s;
+        }
+
+        .love4{
+            right:5%;
+            animation-delay:6s;
+        }
+
+        @keyframes loveFloat{
+
+            0%{
+                transform:
+                translateY(0)
+                rotate(0deg);
+            }
+
+            100%{
+                transform:
+                translateY(-130vh)
+                rotate(360deg);
+            }
+        }
+
+        /* GLOW */
+
+        .glow{
+
+            position:absolute;
+
+            width:350px;
+
+            height:350px;
+
+            border-radius:50%;
+
+            background:
+            rgba(255,0,128,0.25);
+
+            filter:blur(120px);
+
+            z-index:-1;
+        }
+
+        .glow1{
+            top:-100px;
+            left:-100px;
+        }
+
+        .glow2{
+            bottom:-100px;
+            right:-100px;
+
+            background:
+            rgba(0,162,255,0.25);
+        }
+
+        /* CARD */
+
+        .card{
+
+            width:100%;
+
+            max-width:420px;
+
+            background:
+            rgba(255,255,255,0.08);
+
+            border:
+            1px solid rgba(255,255,255,0.1);
+
+            backdrop-filter:blur(12px);
+
+            border-radius:30px;
+
+            padding:45px 25px;
+
+            text-align:center;
+
+            box-shadow:
+            0 10px 40px rgba(0,0,0,0.4);
+
+            animation:fadeUp 1.5s ease;
+        }
+
+        .card h1{
+
+            font-size:3rem;
+
+            margin-bottom:15px;
+
+            animation:bounce 2s infinite;
+        }
+
+        .card h2{
+
+            font-size:1.3rem;
+
+            font-weight:400;
+
+            margin-bottom:20px;
+
+            color:#f9a8d4;
+        }
+
+        .card p{
+
+            line-height:1.8;
+
+            color:#f3f4f6;
+
+            margin-bottom:30px;
+        }
+
+        /* BUTTON */
+
+        .btn{
+
+            border:none;
+
+            padding:14px 34px;
+
+            border-radius:50px;
+
+            font-size:1rem;
+
+            font-weight:700;
+
+            cursor:pointer;
+
+            background:
+            linear-gradient(
+            45deg,
+            #ff0080,
+            #ff4da6);
+
+            color:white;
+
+            transition:0.4s;
+        }
+
+        .btn:hover{
+
+            transform:scale(1.08);
+
+            box-shadow:
+            0 0 20px #ff4da6;
+        }
+
+        /* GALLERY PAGE */
+
+        .galleryPage{
+
+            position:absolute;
+
+            inset:0;
+
+            background:
+            linear-gradient(
+            135deg,
+            #050505,
+            #111827,
+            #000000);
+
+            overflow-y:auto;
+
+            padding:30px 20px;
+
+            display:none;
+        }
+
+        .galleryTitle{
+
+            text-align:center;
+
+            margin-bottom:30px;
+
+            font-size:2.5rem;
+
+            animation:fadeUp 1s ease;
+        }
+
+        /* GALLERY */
+
+        .gallery{
+
+            width:100%;
+
+            max-width:1000px;
+
+            margin:auto;
+
+            display:grid;
+
+            grid-template-columns:
+            repeat(auto-fit,minmax(170px,1fr));
+
+            gap:15px;
+        }
+
+        /* PHOTO */
+
+        .photo{
+
+            position:relative;
+
+            overflow:hidden;
+
+            border-radius:22px;
+
+            cursor:pointer;
+        }
+
+        /* IMAGE */
+
+        .photo img{
+
+            width:100%;
+
+            height:250px;
+
+            object-fit:contain;
+
+            border-radius:22px;
+
+            transition:0.5s;
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        /* OVERLAY */
+
+        .overlay{
+
+            position:absolute;
+
+            inset:0;
+
+            background:
+            rgba(0,0,0,0.55);
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            opacity:0;
+
+            transition:0.5s;
+
+            border-radius:22px;
+        }
+
+        /* CAPTION */
+
+        .overlay h3{
+
+            color:white;
+
+            font-size:1.1rem;
+
+            text-align:center;
+
+            transform:
+            translateY(20px);
+
+            transition:0.5s;
+        }
+
+        /* HOVER EFFECT */
+
+        .photo:hover img{
+
+            transform:scale(1.1);
+        }
+
+        .photo:hover .overlay{
+
+            opacity:1;
+        }
+
+        .photo:hover .overlay h3{
+
+            transform:translateY(0);
+        }
+
+        /* MESSAGE */
+
+        .message{
+
+            width:100%;
+
+            max-width:700px;
+
+            margin:35px auto;
+
+            text-align:center;
+
+            padding:25px;
+
+            border-radius:25px;
+
+            background:
+            rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(10px);
+
+            line-height:1.8;
+
+            font-size:1.05rem;
+        }
+
+        /* HEARTS */
+
+        .heart{
+
+            position:fixed;
+
+            color:#ff4da6;
+
+            font-size:22px;
+
+            animation:heartMove 5s linear forwards;
+
+            z-index:999;
+        }
+
+        @keyframes heartMove{
+
+            0%{
+                transform:
+                translateY(0)
+                scale(1);
+
+                opacity:1;
+            }
+
+            100%{
+                transform:
+                translateY(-100vh)
+                scale(2);
+
+                opacity:0;
+            }
+        }
+
+        /* ANIMATION */
+
+        @keyframes fadeUp{
+
+            from{
+                opacity:0;
+                transform:translateY(40px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        @keyframes bounce{
+
+            0%,100%{
+                transform:translateY(0);
+            }
+
+            50%{
+                transform:translateY(-10px);
+            }
+        }
+
+        /* MOBILE */
+
+        @media(max-width:600px){
+
+            .card h1{
+                font-size:2.2rem;
+            }
+
+            .galleryTitle{
+                font-size:2rem;
+            }
+
+            .photo img{
+                height:220px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- GLOW -->
+
+    <div class="glow glow1"></div>
+
+    <div class="glow glow2"></div>
+
+    <!-- LOVE BALLOONS -->
+
+    <img class="love love1"
+        src="https://cdn-icons-png.flaticon.com/512/2589/2589175.png">
+
+    <img class="love love2"
+        src="https://cdn-icons-png.flaticon.com/512/2589/2589175.png">
+
+    <img class="love love3"
+        src="https://cdn-icons-png.flaticon.com/512/2589/2589175.png">
+
+    <img class="love love4"
+        src="https://cdn-icons-png.flaticon.com/512/2589/2589175.png">
+
+    <!-- FRONT PAGE -->
+
+    <section class="page"
+        id="frontPage">
+
+        <div class="card">
+
+            <h1>
+                🎂 Happy Birthday
+            </h1>
+
+            <h2>
+                My Sweetest Girl (Diya) 💖
+            </h2>
+
+            <p>
+                A small surprise website
+                made with love just for you ✨
+            </p>
+
+            <button
+                class="btn"
+                onclick="openGallery()">
+
+                Open Surprise 🎊
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- GALLERY PAGE -->
+
+    <section class="galleryPage"
+        id="galleryPage">
+
+        <h1 class="galleryTitle">
+
+            💖 COLLECTED OUR BEAUTIFUL MEMORIES OF FIVE YEARS 💖  </h1>
+
+            <h1 class="gallerySubtitle" style="width: 100%; text-align: center; margin-top: 20px">
+        
+            🌼 প্রতিটি ছবি আমাদের বন্ধুত্বের গল্প বলে..!!🌼
+
+        </h1>
+
+        <!-- GALLERY -->
+
+        <div class="gallery" style="padding-top: 50px;">
+
+            <!-- PHOTO 1 -->
+
+            <div class="photo">
+
+                <img src="./images/img-1.jpeg">
+
+                <div class="overlay">
+
+                    <h3>
+                        Our bond is priceless ✨
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <!-- PHOTO 2 -->
+
+            <div class="photo">
+
+                <img src="./images/img-2.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        You're my forever favourite.❤️
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <!-- PHOTO 3 -->
+
+            <div class="photo">
+
+                <img src="./images/img-3.jpeg">
+
+                <div class="overlay">
+
+                    <h3>
+                        My heart Choose you as my Best Friend 🌸
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <!-- PHOTO 4 -->
+
+            <div class="photo">
+
+                <img src="./images/img-4.jpeg">
+
+                <div class="overlay">
+
+                    <h3>
+                        I'm Lucky to have you 👑
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <!-- PHOTO 5 -->
+
+            <div class="photo">
+
+                <img src="./images/img-5.jpeg">
+
+                <div class="overlay">
+
+                    <h3>
+                        Built on trust, Sealed with love.❤️
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <!-- PHOTO 6 -->
+
+            <div class="photo">
+
+                <img src="./images/img-8.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Side by Side, heart to heart 💫
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+        <!-- PHOTO 6 -->
+
+            <div class="photo">
+
+                <img src="./images/img-10.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Forever Love ❤️💫
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+        <!-- PHOTO 6 -->
+
+            <div class="photo">
+
+                <img src="./images/img-11.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        You're my Rose.🌹
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+        <!-- PHOTO 6 -->
+
+            <div class="photo">
+
+                <img src="./images/img-12.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        I Love your Smile.✨
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+        <!-- PHOTO 6 -->
+
+            <div class="photo">
+
+                <img src="./images/img-13.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Love of Moment💫
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+        <!-- PHOTO 6 -->
+
+            <div class="photo">
+
+                <img src="./images/img-14.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Two Idiots.😁
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+        <!-- PHOTO 6 -->
+
+            <div class="photo">
+
+                <img src="./images/img-15.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Love you darlo.♥️
+                    </h3>
+
+                </div>
+
+            </div>
+
+             <div class="photo">
+
+                <img src="./images/img-16.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Love you dear.♥️
+                    </h3>
+
+                </div>
+
+            </div>
+
+             <div class="photo">
+
+                <img src="./images/img-17.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Love you khepi.♥️
+                    </h3>
+
+                </div>
+
+            </div>
+
+             <div class="photo">
+
+                <img src="./images/img-18.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        I Always Want to hold your hand.💫
+                    </h3>
+
+                </div>
+
+            </div>
+
+             <div class="photo">
+
+                <img src="./images/img-19.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Love you mona.♥️
+                    </h3>
+
+                </div>
+
+            </div>
+
+             <div class="photo">
+
+                <img src="./images/img-20.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Love you bby.♥️🌹
+                    </h3>
+
+                </div>
+
+            </div>
+
+             <div class="photo">
+
+                <img src="./images/img-21.png">
+
+                <div class="overlay">
+
+                    <h3>
+                       Beautiful Moment.💫
+                    </h3>
+
+                </div>
+
+            </div>
+
+             <div class="photo">
+
+                <img src="./images/img-22.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Ki? Omon kore ki dekhchis..?🤭🙈
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+        <!-- PHOTO 6 -->
+
+            <div class="photo">
+
+                <img src="./images/img-23.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Love you Tepi.♥️
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-24.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        My person, my peace.🫶💫
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-25.png">
+
+                <div class="overlay">
+
+                    <h3>
+                       You Feel better with your head on my shoulder.💫
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-40.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        You make ordinary moments unforgettable.♥️
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-27.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        With you, every moment is beautiful. ✨❤️
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-28.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Love you princess.👑
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-29.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Love you jigree.🫂♥️
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-31.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Love you darling.♥️
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-32.png">
+
+                <div class="overlay">
+
+                    <h3>
+                       Hands full of colors, heart full of happiness.💖✨
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-33.png">
+
+                <div class="overlay">
+
+                    <h3>
+                         Some bonds don't need words.🤍
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-34.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Two hearts, one beautiful bond.🫶
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-35.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Two souls, one vibe.✨
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-38.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        My favorite place is right beside you.🫶
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-39.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Heart full of love, cups full of chai.🤍
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-41.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Some people walk into your life and quietly become your safest place.🤍🌸
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-42.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Just us, just happiness.😌🌸
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-43.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        My Queen.👑
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-44.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Comfort looks like this.❤️
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-45.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        In a world full of trends, our friendship stays timeless.✨🤍
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-46.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Found comfort in your hand.🫶
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-47.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        You make ordinary moments special.💖
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-48.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Your hand feels safest to me.💖✨
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-49.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Every journey is better with you.🩵
+                    </h3>
+
+                </div>
+
+            </div>
+            <div class="photo">
+
+                <img src="./images/img-50.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Flowers fade, but this feeling won’t.💖🌹
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-51.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        Happiness is sitting beside your favorite person.💞💫
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="photo">
+
+                <img src="./images/img-37.png">
+
+                <div class="overlay">
+
+                    <h3>
+                        I love you forever and ever and ever Sweetheart.😌♥️😘
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- MESSAGE -->
+         
+        <div class="message">
+             <br><i>"3rd July"<br></i> 
+           <b>🌸 Happy Birthday 🌸
+            <br>Dear Diya ♥️<br></b>
+            
+        <i>Cheers to another amazing year! <b>Happy Birthday</b> to you <b>My Dear,</b> You make my life brighter every single day. 
+        I wish you your success, peace, love, and countless beautiful moments ahead.😌♥️💫
+        <br>Lots of hugs and love my Sweetheart..🫂♥️</i></br>
+        
+        <br><br>
+        <div style="text-align:right;"><i>
+          Forever yours,<br>
+          Chotu 🤗</i>
+        </div>
+
+</div>
+
+
+
+<!-- Footer Section -->
+<div class="footer" style="width: 100%; text-align: right; margin-top: 20px;">
+    <small>Author - Supriya Basak</small>
+</div>
+</section>
+
+
+
+
+
+    <script>
+
+        // OPEN GALLERY
+
+        function openGallery(){
+
+            startConfetti();
+
+            setTimeout(()=>{
+
+                document
+                .getElementById("frontPage")
+                .style.display="none";
+
+                document
+                .getElementById("galleryPage")
+                .style.display="block";
+
+            },1200);
+        }
+
+        // CONFETTI
+
+        function startConfetti(){
+
+            const duration = 5 * 1000;
+
+            const end = Date.now() + duration;
+
+            (function frame(){
+
+                confetti({
+
+                    particleCount:6,
+
+                    angle:60,
+
+                    spread:70,
+
+                    origin:{x:0}
+
+                });
+
+                confetti({
+
+                    particleCount:6,
+
+                    angle:120,
+
+                    spread:70,
+
+                    origin:{x:1}
+
+                });
+
+                if(Date.now() < end){
+
+                    requestAnimationFrame(frame);
+                }
+
+            }());
+        }
+
+        // AUTO CONFETTI
+
+        window.onload = ()=>{
+
+            startConfetti();
+        };
+
+        // FLOATING HEARTS
+
+        function createHeart(){
+
+            const heart =
+            document.createElement("div");
+
+            heart.classList.add("heart");
+
+            heart.innerHTML = "💖";
+
+            heart.style.left =
+            Math.random()*100 + "vw";
+
+            heart.style.fontSize =
+            Math.random()*20 + 18 + "px";
+
+            document.body.appendChild(heart);
+
+            setTimeout(()=>{
+
+                heart.remove();
+
+            },5000);
+        }
+
+        setInterval(createHeart,300);
+
+    </script>
+
+</body>
+
+</html>
